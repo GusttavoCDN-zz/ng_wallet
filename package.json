@@ -7,9 +7,6 @@
     "frontend",
     "backend"
   ],
-  "*.{ts,tsx}": [
-    "eslint --fix --ext .ts,.tsx"
-  ],
   "scripts": {
     "prepare": "husky install"
   },
