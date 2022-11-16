@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from '../../useCases/createUser/create-user';
+import { SignupUseCase } from '../../useCases/signup/sign-up';
 import { RequestValidator } from '../RequestValidator';
 import { Signup } from './signup';
 
@@ -20,12 +20,12 @@ const fakeRequest = {
 
 type SutTypes = {
   sut: Signup
-  createUserStub: jest.Mocked<CreateUserUseCase>
+  createUserStub: jest.Mocked<SignupUseCase>
   requestValidatorStub: jest.Mocked<RequestValidator>
 };
 
 const makeSut = (): SutTypes => {
-  const createUserStub: jest.Mocked<CreateUserUseCase> = {
+  const createUserStub: jest.Mocked<SignupUseCase> = {
     execute: jest.fn().mockResolvedValue(fakeResponse.body)
   } as any;
   const requestValidatorStub: jest.Mocked<RequestValidator> = {

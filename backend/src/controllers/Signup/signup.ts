@@ -1,11 +1,11 @@
-import { CreateUserUseCase } from '../../useCases/createUser/create-user';
+import { SignupUseCase } from '../../useCases/signup/sign-up';
 import { Controller } from '../Controller';
 import { HttpRequest, HttpResponse } from '../Http';
 import { RequestValidator } from '../RequestValidator';
 
 export class Signup implements Controller {
   constructor(
-    private readonly createUser: CreateUserUseCase,
+    private readonly signup: SignupUseCase,
     private readonly requestValidator: RequestValidator
   ) {}
 
@@ -19,7 +19,7 @@ export class Signup implements Controller {
       };
     }
 
-    const userData = await this.createUser.execute(request.body);
+    const userData = await this.signup.execute(request.body);
 
     return {
       statusCode: 201,

@@ -1,4 +1,3 @@
-import { User } from '../../entities/user';
 import { ConflictError } from '../../errors';
 import {
   FindUserRepository,
@@ -17,7 +16,7 @@ type CreateUserResponse = {
   accountId: string
 };
 
-export class CreateUserUseCase {
+export class SignupUseCase {
   constructor(
     private readonly usersRepository: AddUserRepository & FindUserRepository,
     private readonly passwordEncrypter: PasswordEncrypter
@@ -33,13 +32,11 @@ export class CreateUserUseCase {
 
     const encryptedPassword = await this.passwordEncrypter.encrypt(password);
 
-    const user = new User({
+    const newUser = await this.usersRepository.add({
       username,
       password: encryptedPassword
     });
 
-    await this.usersRepository.add(user);
-
-    return { id: user.id, username: user.username, accountId: user.accountId };
+    return { id: newUser.id, username, accountId: newUser.accountId };
   };
 }

@@ -4,11 +4,10 @@ import {
   AddUserRepository
 } from '../../repositories/UsersRepository';
 import { PasswordEncrypter } from '../../utils/PasswordEncrypter';
-import { CreateUserUseCase } from './create-user';
-import crypto from 'crypto';
+import { SignupUseCase } from './sign-up';
 
 interface SutTypes {
-  sut: CreateUserUseCase
+  sut: SignupUseCase
   usersRepositoryStub: jest.Mocked<AddUserRepository & FindUserRepository>
   passwordEncrypterStub: jest.Mocked<PasswordEncrypter>
 }
@@ -35,22 +34,11 @@ const makeSut = (): SutTypes => {
     encrypt: jest.fn().mockResolvedValue('hashed_password')
   };
 
-  const sut = new CreateUserUseCase(usersRepositoryStub, passwordEncrypterStub);
+  const sut = new SignupUseCase(usersRepositoryStub, passwordEncrypterStub);
   return { sut, usersRepositoryStub, passwordEncrypterStub };
 };
 
 describe('CreateUser use case Test', () => {
-  beforeEach(() => {
-    jest
-      .spyOn(crypto, 'randomUUID')
-      .mockReturnValueOnce('any_id')
-      .mockReturnValueOnce('any_account_id');
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
   it('Should call find with the correct value ', async () => {
     const { sut, usersRepositoryStub } = makeSut();
     const findSpy = jest.spyOn(usersRepositoryStub, 'find');
@@ -85,10 +73,8 @@ describe('CreateUser use case Test', () => {
     await sut.execute(fakeRequest);
 
     expect(addSpy).toHaveBeenCalledWith({
-      id: 'any_id',
       username: fakeRequest.username,
-      password: 'hashed_password',
-      accountId: 'any_account_id'
+      password: 'hashed_password'
     });
   });
 
