@@ -15,7 +15,7 @@ type UserAccessData = {
   token: string
 };
 
-export class Login {
+export class SignInUseCase {
   constructor(
     private readonly usersRepository: FindUserRepository,
     private readonly passwordCompare: PasswordCompare,
