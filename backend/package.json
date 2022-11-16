@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --passWithNoTests --silent --runInBand",
+    "lint": "eslint . --fix --ext .ts",
     "test:staged": "jest --passWithNoTests --bail --runInBand --findRelatedTests"
   },
   "devDependencies": {

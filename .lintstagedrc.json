@@ -1,6 +1,6 @@
 {
   "*.{ts,tsx}": [
-    "eslint --fix --ext .ts,.tsx",
-    "jest --passWithNoTests --bail --runInBand --findRelatedTests"
+    "yarn lint:backend",
+    "yarn test:backend"
   ]
 }

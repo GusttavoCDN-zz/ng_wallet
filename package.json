@@ -8,7 +8,9 @@
     "backend"
   ],
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:backend": "cd backend && yarn lint",
+    "test:backend": "cd backend && yarn test:staged"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
