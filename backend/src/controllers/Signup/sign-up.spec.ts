@@ -1,6 +1,6 @@
 import { SignupUseCase } from '../../useCases/signup/sign-up';
 import { RequestValidator } from '../RequestValidator';
-import { Signup } from './signup';
+import { Signup } from './sign-up';
 
 const fakeResponse = {
   statusCode: 201,
