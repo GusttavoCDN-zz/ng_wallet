@@ -1,6 +1,7 @@
 {
   "name": "@challenge_ng_cash/backend",
   "version": "1.0.0",
+  "private": true,
   "main": "server.ts",
   "license": "MIT",
   "scripts": {

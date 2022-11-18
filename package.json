@@ -1,5 +1,5 @@
 {
-  "name": "@challenge_ng_cash/frontend",
+  "name": "challenge_ng_cash",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -8,16 +8,13 @@
     "backend"
   ],
   "scripts": {
-    "prepare": "husky install",
-    "lint:backend": "cd backend && yarn lint",
-    "test:backend": "cd backend && yarn test:staged"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3"
+    "husky": "^8.0.2"
   },
   "config": {
     "commitizen": {
