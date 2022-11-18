@@ -11,7 +11,7 @@ type CreateUserRequest = {
 };
 
 type CreateUserResponse = {
-  id: string
+  id: number
   username: string
   accountId: string
 };

@@ -1,6 +1,6 @@
 import { User } from '../entities/user';
 
-type createUserDTO = {
+export type createUserDTO = {
   username: string
   password: string
 };

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 export class BcryptPassowrdManager implements PasswordCompare, PasswordEncrypter {
   private readonly _salt: number;
-  private _bycrpt: typeof bcrypt;
+  private readonly _bycrpt: typeof bcrypt;
 
   constructor(salt: number) {
     this._salt = salt;

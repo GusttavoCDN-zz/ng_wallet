@@ -10,7 +10,7 @@ type UserCredentials = {
 };
 
 type UserAccessData = {
-  id: string
+  id: number
   username: string
   token: string
 };
