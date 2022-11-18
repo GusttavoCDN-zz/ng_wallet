@@ -14,8 +14,8 @@ model Account {
   id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   balance            Float         @default(100)
   user               User?
-  debitTransactions  Transaction[] @relation("DebitAccount")
-  creditTransactions Transaction[] @relation("CreditAccount")
+  debitTransactions  Transaction[] @relation("debits")
+  creditTransactions Transaction[] @relation("credits")
 
   @@map("accounts")
 }
@@ -37,8 +37,8 @@ model Transaction {
   value             Float
   createdAt         DateTime @default(now())
 
-  debitedAccount  Account @relation("DebitAccount", fields: [debitedAccountId], references: [id])
-  creditedAccount Account @relation("CreditAccount", fields: [creditedAccountId], references: [id])
+  debitedAccount  Account @relation("debits", fields: [debitedAccountId], references: [id])
+  creditedAccount Account @relation("credits", fields: [creditedAccountId], references: [id])
 
   @@map("transactions")
 }
