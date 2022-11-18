@@ -13,7 +13,7 @@ interface SutTypes {
 }
 
 const fakeUser = {
-  id: 'any_id',
+  id: 1,
   username: 'any_username',
   password: 'any_password',
   accountId: 'any_account_id'
@@ -84,7 +84,7 @@ describe('CreateUser use case Test', () => {
     const user = await sut.execute(fakeRequest);
 
     expect(user).toEqual({
-      id: 'any_id',
+      id: 1,
       username: fakeRequest.username,
       accountId: 'any_account_id'
     });
