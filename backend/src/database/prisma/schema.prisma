@@ -11,19 +11,34 @@ datasource db {
 }
 
 model Account {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  balance Float  @default(100)
-  user User?
+  id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  balance            Float         @default(100)
+  user               User?
+  debitTransactions  Transaction[] @relation("DebitAccount")
+  creditTransactions Transaction[] @relation("CreditAccount")
 
   @@map("accounts")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  account  Account @relation(fields: [accountId], references: [id])
-  accountId String @unique @db.Uuid
+  id        Int     @id @default(autoincrement())
+  username  String  @unique
+  password  String
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String  @unique @db.Uuid
 
   @@map("users")
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  debitedAccountId  String   @map("debited_account_id") @db.Uuid
+  creditedAccountId String   @map("credited_account_id") @db.Uuid
+  value             Float
+  createdAt         DateTime @default(now())
+
+  debitedAccount  Account @relation("DebitAccount", fields: [debitedAccountId], references: [id])
+  creditedAccount Account @relation("CreditAccount", fields: [creditedAccountId], references: [id])
+
+  @@map("transactions")
 }
