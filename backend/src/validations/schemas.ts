@@ -7,3 +7,9 @@ export const userCredentialsSchema = joi.object({
     .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/)
     .required()
 });
+
+export const createTransactionSchema = joi.object({
+  amount: joi.number().min(1).required(),
+  cashOutAccount: joi.string().required(),
+  cashInAccount: joi.string().required()
+});
