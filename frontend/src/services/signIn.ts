@@ -1,8 +1,8 @@
-import { UserCredentials } from '../@types';
+import { User, UserCredentials } from '../@types';
 import { httpRequest } from '../api/config';
 
 export async function signInRequest({ username, password }: UserCredentials) {
   const { data } = await httpRequest.post('/signin', { username, password });
-  localStorage.setItem('user', JSON.stringify(data));
+  localStorage.setItem('user', JSON.stringify(data as User));
   return data;
 }

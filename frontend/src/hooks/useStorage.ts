@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useState, useEffect } from 'react';
 
-function useStorage(key: string, defaultValue: any, storageObject: Storage) {
-  const [value, setValue] = useState(() => {
-    const jsonValue = storageObject.getItem(key);
+type StorageResponse<T> = [T, React.Dispatch<React.SetStateAction<T>>, () => void];
+export function useLocalStorage<T = any>(key: string, defaultValue?: T): StorageResponse<T> {
+  const [value, setValue] = useState<T>(() => {
+    const jsonValue = window.localStorage.getItem(key);
     if (jsonValue != null) return JSON.parse(jsonValue);
 
     if (typeof defaultValue === 'function') {
@@ -14,17 +15,13 @@ function useStorage(key: string, defaultValue: any, storageObject: Storage) {
   });
 
   useEffect(() => {
-    if (value === undefined) return storageObject.removeItem(key);
-    storageObject.setItem(key, JSON.stringify(value));
-  }, [key, value, storageObject]);
+    if (value === undefined) return window.localStorage.removeItem(key);
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
   const remove = useCallback(() => {
-    storageObject.removeItem(key);
-  }, [key, storageObject]);
+    window.localStorage.removeItem(key);
+  }, [key]);
 
-  return [value, setValue, remove];
-}
-
-export function useLocalStorage(key: string, defaultValue: any) {
-  return useStorage(key, defaultValue, window.localStorage);
+  return [value as T, setValue, remove];
 }

@@ -1,3 +1,5 @@
+import { Header } from '../components/Header';
+
 export function Dashboard() {
-  return <div>Dashboard</div>;
+  return <Header />;
 }
