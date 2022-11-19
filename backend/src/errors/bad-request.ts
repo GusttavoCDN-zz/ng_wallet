@@ -4,5 +4,3 @@ export class BadRequestError extends Error {
     this.name = 'BadRequestError';
   }
 }
-
-const a = 'a';

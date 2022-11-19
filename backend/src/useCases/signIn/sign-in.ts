@@ -1,5 +1,4 @@
 import { NotFoundError } from '../../errors';
-import { BadRequestError } from '../../errors/bad-request';
 import { FindUserRepository } from '../../repositories/UsersRepository';
 import { PasswordCompare } from '../../utils/PasswordCompare';
 import { TokenGenerator } from '../../utils/TokenGenerator';
@@ -25,11 +24,11 @@ export class SignInUseCase {
   execute = async ({ username, password }: UserCredentials): Promise<UserAccessData> => {
     const user = await this.usersRepository.find(username);
 
-    if (!user) throw new NotFoundError('User not found');
+    if (!user) throw new NotFoundError('User or password invalid');
 
     const isPasswordValid = await this.passwordCompare.compare(password, user.password);
 
-    if (!isPasswordValid) throw new BadRequestError('User or password invalid');
+    if (!isPasswordValid) throw new NotFoundError('User or password invalid');
 
     const token = await this.tokenGenerator.generate({
       id: user.id,

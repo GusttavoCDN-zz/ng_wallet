@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../errors/bad-request';
+import { InvalidRequestError } from '../../errors';
 import { SignInUseCase } from '../../useCases/signIn/sign-in';
 import { Controller } from '../Controller';
 import { HttpRequest, HttpResponse } from '../Http';
@@ -14,10 +14,9 @@ export class SignIn implements Controller {
     const isRequestValid = await this.requestValidator.validate(request.body);
 
     if (!isRequestValid) {
-      return {
-        statusCode: 400,
-        body: new BadRequestError('Invalid request')
-      };
+      throw new InvalidRequestError(
+        'Please check the username and password fields and try again'
+      );
     }
 
     const userDataAccess = await this.signIn.execute(request.body);

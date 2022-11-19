@@ -1,5 +1,6 @@
 import { Controller } from '../controllers/Controller';
 import { SignIn } from '../controllers/signIn/sign-in';
+import { HandleControllerErrorsDecorator } from '../decorators/HandleControllerErrorsDecorator';
 import { PrismaUsersRepository } from '../repositories/implementations/prisma-users-repository';
 import { SignInUseCase } from '../useCases/signIn/sign-in';
 import { BcryptPassowrdManager } from '../utils/BcryptPasswordManager';
@@ -21,5 +22,5 @@ export function makeSignInController(): Controller {
   const requestValidator = new JoiRequestValidator(userCredentialsSchema);
   const signInController = new SignIn(signInUseCase, requestValidator);
 
-  return signInController;
+  return new HandleControllerErrorsDecorator(signInController);
 }
