@@ -1,3 +1,4 @@
+import { InvalidRequestError } from '../../errors';
 import { SignupUseCase } from '../../useCases/signup/sign-up';
 import { Controller } from '../Controller';
 import { HttpRequest, HttpResponse } from '../Http';
@@ -13,10 +14,9 @@ export class Signup implements Controller {
     const isRequestValid = await this.requestValidator.validate(request.body);
 
     if (!isRequestValid) {
-      return {
-        statusCode: 400,
-        body: { message: 'Invalid request' }
-      };
+      throw new InvalidRequestError(
+        'Please check the username and password fields and try again'
+      );
     }
 
     const userData = await this.signup.execute(request.body);
