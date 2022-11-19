@@ -13,7 +13,7 @@ type CreateUserRequest = {
 type CreateUserResponse = {
   id: number
   username: string
-  accountId: string
+  account: string
 };
 
 export class SignupUseCase {
@@ -37,6 +37,6 @@ export class SignupUseCase {
       password: encryptedPassword
     });
 
-    return { id: newUser.id, username, accountId: newUser.accountId };
+    return { id: newUser.id, username, account: newUser.accountId };
   };
 }

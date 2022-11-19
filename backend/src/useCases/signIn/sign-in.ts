@@ -12,6 +12,7 @@ type UserAccessData = {
   id: number
   username: string
   token: string
+  account: string
 };
 
 export class SignInUseCase {
@@ -35,6 +36,6 @@ export class SignInUseCase {
       username: user.username
     });
 
-    return { id: user.id, username: user.username, token };
+    return { id: user.id, username: user.username, account: user.accountId, token };
   };
 }
