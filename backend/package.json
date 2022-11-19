@@ -5,7 +5,7 @@
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/express/server.ts",
+    "dev": "nodemon --exec 'ts-node' --transpile-only src/express/server.ts",
     "test": "jest --passWithNoTests --runInBand",
     "lint": "eslint . --fix --ext .ts",
     "test:staged": "jest --passWithNoTests --bail --runInBand --findRelatedTests"
@@ -23,6 +23,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "jest": "^29.2.2",
+    "nodemon": "^2.0.20",
     "prisma": "^4.6.1",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
