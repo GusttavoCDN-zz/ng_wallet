@@ -6,6 +6,6 @@ import { adaptRoute } from '../config/adapter';
 const usersRouter = Router();
 
 usersRouter.post('/users', adaptRoute(makeSignUpController()));
-usersRouter.post('/login', adaptRoute(makeSignInController()));
+usersRouter.post('/signin', adaptRoute(makeSignInController()));
 
 export { usersRouter };
