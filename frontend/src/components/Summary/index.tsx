@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from './styles';
 import incomeImg from '../../assets/cashIn.svg';
 import outcomeImg from '../../assets/cashOut.svg';
@@ -25,7 +25,7 @@ export function Summary() {
       else acc.income += transaction.value;
       return acc;
     },
-    { income: 0, outcome: 0 } as AccountSumary,
+    { income: 0, outcome: 0 },
   );
 
   useEffect(() => {
