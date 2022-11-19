@@ -1,3 +1,4 @@
+import { InvalidRequestError } from '../errors';
 import { Account } from './account';
 
 type TransactionsProps = {
@@ -30,15 +31,17 @@ export class Transaction {
     debitedAccount
   }: TransactionsProps): void => {
     if (creditedAccount.id === debitedAccount.id) {
-      throw new Error('You cannot make a transaction to your own account');
+      throw new InvalidRequestError('You cannot make a transaction to your own account');
     }
 
     if (amount > debitedAccount.balance) {
-      throw new Error('You do not have enough balance to make this transaction');
+      throw new InvalidRequestError(
+        'You do not have enough balance to make this transaction'
+      );
     }
 
     if (amount <= 0) {
-      throw new Error('The amount must be greater than zero');
+      throw new InvalidRequestError('The amount must be greater than zero');
     }
   };
 }

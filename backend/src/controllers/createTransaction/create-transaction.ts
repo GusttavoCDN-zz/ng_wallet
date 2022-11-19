@@ -1,4 +1,4 @@
-import { BadRequestError } from '../../errors/bad-request';
+import { InvalidRequestError } from '../../errors';
 import { CreateTransactionUseCase } from '../../useCases/createTransaction/create-transaction';
 import { Controller } from '../Controller';
 import { HttpRequest, HttpResponse } from '../Http';
@@ -14,10 +14,7 @@ export class CreateTransaction implements Controller {
     const isRequestValid = await this.requestValidator.validate(request.body);
 
     if (!isRequestValid) {
-      return {
-        statusCode: 400,
-        body: new BadRequestError('Invalid request')
-      };
+      throw new InvalidRequestError('Invalid request. Please check your request body.');
     }
 
     await this.createTransaction.execute(request.body);

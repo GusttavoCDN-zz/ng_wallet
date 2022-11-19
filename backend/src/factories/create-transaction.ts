@@ -1,5 +1,6 @@
 import { Controller } from '../controllers/Controller';
 import { CreateTransaction } from '../controllers/createTransaction/create-transaction';
+import { HandleControllerErrorsDecorator } from '../decorators/HandleControllerErrorsDecorator';
 import { PrismaAccountsRepository } from '../repositories/implementations/prisma-accounts-repository';
 import { CreateTransactionUseCase } from '../useCases/createTransaction/create-transaction';
 import { JoiRequestValidator } from '../validations/JoiRequestValidator';
@@ -15,5 +16,5 @@ export function makeCreateTransactionController(): Controller {
     requestValidator
   );
 
-  return createTransactionController;
+  return new HandleControllerErrorsDecorator(createTransactionController);
 }
