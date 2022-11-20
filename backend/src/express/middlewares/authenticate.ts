@@ -3,7 +3,6 @@ import { verify } from 'jsonwebtoken';
 import 'dotenv/config';
 
 const SECRET = process.env.SECRET ?? 'secret';
-console.log('SECRET', SECRET);
 
 type Payload = {
   id: number

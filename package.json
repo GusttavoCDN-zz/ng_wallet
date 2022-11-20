@@ -8,7 +8,10 @@
     "backend"
   ],
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "frontend": "yarn workspace frontend dev",
+    "backend": "yarn workspace backend dev",
+    "start": "yarn frontend & yarn backend"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",

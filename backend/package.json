@@ -1,10 +1,11 @@
 {
-  "name": "@challenge_ng_cash/backend",
+  "name": "backend",
   "version": "1.0.0",
   "private": true,
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
+    "predev": "yarn prisma migrate reset --force",
     "dev": "nodemon --exec 'ts-node' --transpile-only src/express/server.ts",
     "test": "jest --passWithNoTests --runInBand",
     "lint": "eslint . --fix --ext .ts",
