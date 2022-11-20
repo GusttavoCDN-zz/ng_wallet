@@ -9,11 +9,11 @@ type TransactionsContextData = {
 
 const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
 
-type TransactionsProviderProps = {
+type Props = {
   children: React.ReactNode;
 };
 
-export function TransactionsProvider({ children }: TransactionsProviderProps) {
+export function TransactionsProvider({ children }: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [{ account, token }] = useLocalStorage<User>('user');
 
