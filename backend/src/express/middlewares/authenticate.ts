@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import 'dotenv/config';
+
+const SECRET = process.env.SECRET ?? 'secret';
+console.log('SECRET', SECRET);
 
 type Payload = {
   id: number
@@ -18,7 +22,7 @@ const authenticate = async (
   }
 
   try {
-    const { data } = verify(token, 'otaku') as { data: Payload };
+    const { data } = verify(token, SECRET) as { data: Payload };
     req.user = data;
     next();
   } catch (err) {
