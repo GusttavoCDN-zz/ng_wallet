@@ -36,15 +36,19 @@ export function TransactionsProvider({ children }: Props) {
 
   const createTransaction = useCallback(
     async (data: TransactionInput) => {
-      await httpRequest.post('/transactions', {
-        creditedUser: data.receiver,
-        debitedUser: username,
-        amount: data.value,
-      });
+      await httpRequest.post(
+        '/transactions',
+        {
+          creditedUser: data.receiver,
+          debitedUser: username,
+          amount: data.value,
+        },
+        { headers: { Authorization: token } },
+      );
 
       fetchTransactions();
     },
-    [fetchTransactions, username],
+    [fetchTransactions, username, token],
   );
 
   const contextValues = useMemo(() => ({ transactions, createTransaction }), [transactions, createTransaction]);

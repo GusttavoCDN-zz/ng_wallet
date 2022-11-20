@@ -31,11 +31,11 @@ export const Container = styled.div`
     }
 
     &.cashOut {
-      color: green;
+      color: red;
     }
 
     &.cashIn {
-      color: red;
+      color: green;
     }
   }
 `;

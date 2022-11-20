@@ -8,6 +8,7 @@ import { User } from '../../@types';
 import { httpRequest } from '../../api/config';
 import { formatNumber } from '../../utils/format';
 import { useTransactions } from '../../hooks/useTransactions';
+import { fetchBalance } from '../../services/fetchBalance';
 
 type AccountSumary = {
   income: number;
@@ -16,7 +17,7 @@ type AccountSumary = {
 
 export function Summary() {
   const [balance, setBalance] = useState(0);
-  const [{ token, account }] = useLocalStorage<User>('user');
+  const [{ token, username, account }] = useLocalStorage<User>('user');
   const { transactions } = useTransactions();
 
   const accountSummary = transactions.reduce<AccountSumary>(
@@ -29,16 +30,12 @@ export function Summary() {
   );
 
   useEffect(() => {
-    const fetchBalance = async () => {
-      const { data } = await httpRequest.get(`/accounts/${account}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setBalance(data.balance);
+    const fetch = async () => {
+      const accountBalance = await fetchBalance(username, token);
+      setBalance(accountBalance);
     };
-    fetchBalance();
-  }, [token, account]);
+    fetch();
+  }, [token, username, transactions]);
 
   return (
     <Container>
