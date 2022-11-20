@@ -3,8 +3,14 @@ import { User, Transaction } from '../@types';
 import { httpRequest } from '../api/config';
 import { useLocalStorage } from './useStorage';
 
+type TransactionInput = {
+  receiver: string;
+  value: number;
+};
+
 type TransactionsContextData = {
   transactions: Transaction[];
+  createTransaction: (data: TransactionInput) => Promise<void>;
 };
 
 const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
@@ -15,7 +21,7 @@ type Props = {
 
 export function TransactionsProvider({ children }: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [{ account, token }] = useLocalStorage<User>('user');
+  const [{ account, token, username }] = useLocalStorage<User>('user');
 
   const fetchTransactions = useCallback(async () => {
     const { data } = await httpRequest.get(`/transactions/${account}`, {
@@ -28,7 +34,20 @@ export function TransactionsProvider({ children }: Props) {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  const contextValues = useMemo(() => ({ transactions }), [transactions]);
+  const createTransaction = useCallback(
+    async (data: TransactionInput) => {
+      await httpRequest.post('/transactions', {
+        creditedUser: data.receiver,
+        debitedUser: username,
+        amount: data.value,
+      });
+
+      fetchTransactions();
+    },
+    [fetchTransactions, username],
+  );
+
+  const contextValues = useMemo(() => ({ transactions, createTransaction }), [transactions, createTransaction]);
 
   return <TransactionsContext.Provider value={contextValues}>{children}</TransactionsContext.Provider>;
 }

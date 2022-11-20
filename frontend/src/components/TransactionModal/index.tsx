@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { useTransactionModal } from '../../hooks/useTransactionModal';
+import { useTransactions } from '../../hooks/useTransactions';
 import { StyledForm } from './styles';
 
 Modal.setAppElement('#root');
@@ -10,6 +11,18 @@ export function TransactionModal() {
   const [value, setValue] = useState(0);
 
   const { isOpen, toggleModal } = useTransactionModal();
+  const { createTransaction } = useTransactions();
+
+  const handleCreateNewTransaction = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    await createTransaction({ receiver, value });
+
+    setReceiver('');
+    setValue(0);
+    toggleModal();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -17,7 +30,7 @@ export function TransactionModal() {
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
     >
-      <StyledForm>
+      <StyledForm onSubmit={handleCreateNewTransaction}>
         <h2>Nova Transação</h2>
         <input
           type="text"
