@@ -7,8 +7,8 @@ import {
 
 type CreateTransactionRequest = {
   amount: number
-  cashOutAccount: string
-  cashInAccount: string
+  debitedUser: string
+  creditedUser: string
 };
 
 export class CreateTransactionUseCase {
@@ -17,11 +17,12 @@ export class CreateTransactionUseCase {
   ) {}
 
   execute = async (data: CreateTransactionRequest): Promise<void> => {
-    const debitedAccount = await this.accountsRepository.find(data.cashOutAccount);
+    console.log(data);
+    const debitedAccount = await this.accountsRepository.find(data.debitedUser);
 
     if (!debitedAccount) throw new NotFoundError('Account not found');
 
-    const creditedAccount = await this.accountsRepository.find(data.cashInAccount);
+    const creditedAccount = await this.accountsRepository.find(data.creditedUser);
 
     if (!creditedAccount) {
       throw new NotFoundError('The account you are trying to credit was not found!');

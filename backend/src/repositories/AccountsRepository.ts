@@ -7,7 +7,7 @@ export type TransactionData = {
 };
 
 export interface FindAccountRepository {
-  find: (accountId: string) => Promise<Account | null>
+  find: (username: string) => Promise<Account | null>
 }
 
 export interface MakeTransactionRepository {
