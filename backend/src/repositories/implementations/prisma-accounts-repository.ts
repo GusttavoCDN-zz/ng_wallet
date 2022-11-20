@@ -12,13 +12,9 @@ implements FindAccountRepository, MakeTransactionRepository {
   private readonly transactionModel = prismaClient.transaction;
 
   find = async (username: string): Promise<Account | null> => {
-    console.log(username);
-
     const user = await prismaClient.user.findUnique({
       where: { username }
     });
-
-    console.log(user);
 
     return await this.accountModel.findUnique({
       where: { id: user?.accountId }

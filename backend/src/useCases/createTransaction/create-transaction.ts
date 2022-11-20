@@ -17,7 +17,6 @@ export class CreateTransactionUseCase {
   ) {}
 
   execute = async (data: CreateTransactionRequest): Promise<void> => {
-    console.log(data);
     const debitedAccount = await this.accountsRepository.find(data.debitedUser);
 
     if (!debitedAccount) throw new NotFoundError('Account not found');

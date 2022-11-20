@@ -2,7 +2,7 @@ import { TokenGenerator } from './TokenGenerator';
 import jwt from 'jsonwebtoken';
 
 type Payload = {
-  id: string
+  id: number
   username: string
 };
 
