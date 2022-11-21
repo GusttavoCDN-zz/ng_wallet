@@ -4,17 +4,7 @@ import {
   AddUserRepository,
   PasswordEncrypter
 } from '../../contracts/';
-
-type CreateUserRequest = {
-  username: string
-  password: string
-};
-
-type CreateUserResponse = {
-  id: number
-  username: string
-  account: string
-};
+import { CreatedUserDTO, CreateUserDTO } from './dtos';
 
 export class SignupUseCase {
   constructor(
@@ -22,17 +12,14 @@ export class SignupUseCase {
     private readonly passwordEncrypter: PasswordEncrypter
   ) {}
 
-  execute = async ({
-    username,
-    password
-  }: CreateUserRequest): Promise<CreateUserResponse> => {
-    const userAlreadyExists = await this.usersRepository.find(username);
+  execute = async ({ username, password }: CreateUserDTO): Promise<CreatedUserDTO> => {
+    const userAlreadyExists = await this.usersRepository.findByUsername(username);
 
     if (userAlreadyExists) throw new ConflictError('User already exists');
 
     const encryptedPassword = await this.passwordEncrypter.encrypt(password);
 
-    const newUser = await this.usersRepository.add({
+    const newUser = await this.usersRepository.create({
       username,
       password: encryptedPassword
     });

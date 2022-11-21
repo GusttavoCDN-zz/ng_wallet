@@ -1,14 +1,9 @@
-import { User } from '../../domain';
-
-export type createUserDTO = {
-  username: string
-  password: string
-};
-
+import { UserModel } from '../models/user-model';
+import { CreateUserDTO } from '../useCases/signup/dtos';
 export interface AddUserRepository {
-  add: (data: createUserDTO) => Promise<User>
+  create: (data: CreateUserDTO) => Promise<UserModel>
 }
 
 export interface FindUserRepository {
-  find: (username: string) => Promise<User | null>
+  findByUsername: (username: string) => Promise<UserModel | null>
 }

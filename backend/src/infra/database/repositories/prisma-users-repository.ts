@@ -1,15 +1,11 @@
 import { User } from '@prisma/client';
-import {
-  AddUserRepository,
-  FindUserRepository,
-  createUserDTO
-} from '../../../application/contracts';
-import { user } from '../prisma/models/user-model';
-
+import { AddUserRepository, FindUserRepository } from '../../../application/contracts';
+import { CreateUserDTO } from '../../../application/useCases/signup/dtos';
+import prismaClient from '../prisma/config/config';
 export class PrismaUsersRepository implements AddUserRepository, FindUserRepository {
-  private readonly userModel = user;
+  private readonly userModel = prismaClient.user;
 
-  add = async (data: createUserDTO): Promise<User> => {
+  create = async (data: CreateUserDTO): Promise<User> => {
     const { username, password } = data;
 
     const newUser = await this.userModel.create({
@@ -22,14 +18,12 @@ export class PrismaUsersRepository implements AddUserRepository, FindUserReposit
       }
     });
 
-    return { id: newUser.id, username, password, accountId: newUser.accountId };
+    return newUser;
   };
 
-  find = async (username: string): Promise<User | null> => {
+  findByUsername = async (username: string): Promise<User | null> => {
     return await this.userModel.findUnique({
-      where: {
-        username
-      }
+      where: { username }
     });
   };
 }
