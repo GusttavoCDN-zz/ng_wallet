@@ -1,9 +1,9 @@
 import { Account } from '@prisma/client';
 import {
   FindAccountRepository,
-  MakeTransactionRepository,
-  TransactionData
+  MakeTransactionRepository
 } from '../../../application/contracts';
+import { CreateTransactionDTO } from '../../../application/useCases/createTransaction/dtos';
 import prismaClient from '../prisma/config/config';
 
 export class PrismaAccountsRepository
@@ -17,12 +17,12 @@ implements FindAccountRepository, MakeTransactionRepository {
     });
   };
 
-  makeTransaction = async (data: TransactionData): Promise<void> => {
+  makeTransaction = async (data: CreateTransactionDTO): Promise<void> => {
     await prismaClient.$transaction([
       this.accountModel.update({
         data: {
           balance: {
-            decrement: data.ammount
+            decrement: data.amount
           }
         },
         where: { id: data.debitedAccount }
@@ -31,7 +31,7 @@ implements FindAccountRepository, MakeTransactionRepository {
       this.accountModel.update({
         data: {
           balance: {
-            increment: data.ammount
+            increment: data.amount
           }
         },
         where: { id: data.creditedAccount }
@@ -45,7 +45,7 @@ implements FindAccountRepository, MakeTransactionRepository {
           debitedAccount: {
             connect: { id: data.debitedAccount }
           },
-          value: data.ammount
+          value: data.amount
         }
       })
     ]);
