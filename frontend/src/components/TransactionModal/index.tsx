@@ -9,6 +9,7 @@ Modal.setAppElement('#root');
 export function TransactionModal() {
   const [receiver, setReceiver] = useState('');
   const [value, setValue] = useState(0);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const { isOpen, toggleModal } = useTransactionModal();
   const { createTransaction } = useTransactions();
@@ -16,11 +17,14 @@ export function TransactionModal() {
   const handleCreateNewTransaction = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    await createTransaction({ receiver, value });
-
-    setReceiver('');
-    setValue(0);
-    toggleModal();
+    try {
+      await createTransaction({ receiver, value });
+      setReceiver('');
+      setValue(0);
+      toggleModal();
+    } catch (error: any) {
+      setErrorMsg('Erro ao criar transação. Verique o nome do recebor e saldo da sua conta');
+    }
   };
 
   return (
@@ -45,6 +49,7 @@ export function TransactionModal() {
           onChange={({ target }) => setValue(Number(target.value))}
         />
         <button type="submit">Transferir</button>
+        {errorMsg && <p>{errorMsg}</p>}
       </StyledForm>
     </Modal>
   );

@@ -43,5 +43,10 @@ export const StyledForm = styled.form`
     &:hover {
       filter: brightness(0.9);
     }
+
+    p {
+      color: var(--text-title);
+      text-align: center;
+    }
   }
 `;

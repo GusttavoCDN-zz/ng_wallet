@@ -18,4 +18,10 @@ export const Header = styled.header`
     border-radius: 2rem;
     height: 3rem;
   }
+
+  .logout-button {
+    color: var(--red);
+    border: 1px solid var(--red);
+    font-weight: bold;
+  }
 `;
