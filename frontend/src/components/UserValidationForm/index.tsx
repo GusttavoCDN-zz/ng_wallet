@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { signInRequest } from '../../services/signIn';
 import { signUpRequest } from '../../services/signup';
 import { validateUserCredentials } from '../../validations/validateUserCredentials';
+import { Container, StyledForm } from './styles';
 
 export function UserValidationForm() {
   const [username, setUsername] = useState('');
@@ -18,7 +19,7 @@ export function UserValidationForm() {
     const isCredentialsValid = validateUserCredentials({ username, password });
 
     if (!isCredentialsValid) {
-      setErrorMsg('Invalid username or password');
+      setErrorMsg('Usuario ou senha invalidos, tente novamente');
       return;
     }
 
@@ -31,28 +32,33 @@ export function UserValidationForm() {
         navigate('/signin');
       }
     } catch (error: unknown) {
-      if (error instanceof Error) setErrorMsg(error.message);
+      if (error instanceof Error) {
+        setErrorMsg(error.message);
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={username}
-        placeholder="Escreva seu nome de usuario"
-        onChange={({ target }) => setUsername(target.value)}
-      />
-      <input
-        type="password"
-        value={password}
-        placeholder="Escreva sua senha"
-        onChange={({ target }) => setPassword(target.value)}
-      />
+    <Container>
+      <StyledForm onSubmit={handleSubmit}>
+        <h2>Faça Login na sua conta</h2>
+        <input
+          type="text"
+          value={username}
+          placeholder="Escreva seu nome de usuario"
+          onChange={({ target }) => setUsername(target.value)}
+        />
+        <input
+          type="password"
+          value={password}
+          placeholder="Escreva sua senha"
+          onChange={({ target }) => setPassword(target.value)}
+        />
 
-      <button type="submit">{pathname === '/signin' ? 'Login' : 'Cadastrar'}</button>
-      {pathname === '/signin' && <Link to="/signup">Cadastrar</Link>}
-      {errorMsg && <p>{errorMsg}</p>}
-    </form>
+        <button type="submit">{pathname === '/signin' ? 'Login' : 'Cadastrar'}</button>
+        {pathname === '/signin' && <Link to="/signup">Cadastrar</Link>}
+        {errorMsg && <p>{errorMsg}</p>}
+      </StyledForm>
+    </Container>
   );
 }
