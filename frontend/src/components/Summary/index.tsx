@@ -5,7 +5,6 @@ import outcomeImg from '../../assets/cashOut.svg';
 import totalImg from '../../assets/currency.svg';
 import { useLocalStorage } from '../../hooks/useStorage';
 import { User } from '../../@types';
-import { httpRequest } from '../../api/config';
 import { formatNumber } from '../../utils/format';
 import { useTransactions } from '../../hooks/useTransactions';
 import { fetchBalance } from '../../services/fetchBalance';
@@ -31,7 +30,7 @@ export function Summary() {
 
   useEffect(() => {
     const fetch = async () => {
-      const accountBalance = await fetchBalance(username, token);
+      const accountBalance = await fetchBalance(token);
       setBalance(accountBalance);
     };
     fetch();

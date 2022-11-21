@@ -21,14 +21,14 @@ type Props = {
 
 export function TransactionsProvider({ children }: Props) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [{ account, token, username }] = useLocalStorage<User>('user');
+  const [{ token }] = useLocalStorage<User>('user');
 
   const fetchTransactions = useCallback(async () => {
-    const { data } = await httpRequest.get(`/transactions/${account}`, {
+    const { data } = await httpRequest.get(`/transactions`, {
       headers: { Authorization: token },
     });
     setTransactions(data);
-  }, [account, token]);
+  }, [token]);
 
   useEffect(() => {
     fetchTransactions();
@@ -39,8 +39,7 @@ export function TransactionsProvider({ children }: Props) {
       await httpRequest.post(
         '/transactions',
         {
-          creditedUser: data.receiver,
-          debitedUser: username,
+          creditedUsername: data.receiver,
           amount: data.value,
         },
         { headers: { Authorization: token } },
@@ -48,7 +47,7 @@ export function TransactionsProvider({ children }: Props) {
 
       fetchTransactions();
     },
-    [fetchTransactions, username, token],
+    [fetchTransactions, token],
   );
 
   const contextValues = useMemo(() => ({ transactions, createTransaction }), [transactions, createTransaction]);
