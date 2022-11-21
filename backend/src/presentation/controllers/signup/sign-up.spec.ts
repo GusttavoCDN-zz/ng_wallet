@@ -1,5 +1,6 @@
-import { SignupUseCase } from '../../application/useCases/signup/sign-up';
-import { RequestValidator } from '../../contracts/RequestValidator';
+import { SignupUseCase } from '../../../application/useCases';
+import { InvalidRequestError } from '../../../errors';
+import { RequestValidator } from '../../contracts';
 import { Signup } from './sign-up';
 
 const fakeResponse = {
@@ -46,16 +47,13 @@ describe('Signup controller test', () => {
     expect(validateSpy).toHaveBeenCalledWith(fakeRequest.body);
   });
 
-  it('Should return an badRequest with statusCode 400 if request is invalid', async () => {
+  it('Should throw a invalidRequest if request is invalid', async () => {
     const { sut, requestValidatorStub } = makeSut();
     requestValidatorStub.validate.mockResolvedValueOnce(false);
 
-    const response = await sut.handle(fakeRequest);
+    const promise = sut.handle(fakeRequest);
 
-    expect(response).toEqual({
-      statusCode: 400,
-      body: { message: 'Invalid request' }
-    });
+    await expect(promise).rejects.toThrowError(InvalidRequestError);
   });
 
   it('Should call createUser with request body', async () => {
