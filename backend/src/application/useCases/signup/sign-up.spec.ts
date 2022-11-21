@@ -1,9 +1,9 @@
 import { ConflictError } from '../../../errors';
 import {
+  AddUserRepository,
   FindUserRepository,
-  AddUserRepository
-} from '../../contracts/UsersRepository';
-import { PasswordEncrypter } from '../../../utils/PasswordEncrypter';
+  PasswordEncrypter
+} from '../../contracts';
 import { SignupUseCase } from './sign-up';
 
 interface SutTypes {
@@ -86,7 +86,7 @@ describe('CreateUser use case Test', () => {
     expect(user).toEqual({
       id: 1,
       username: fakeRequest.username,
-      accountId: 'any_account_id'
+      account: 'any_account_id'
     });
   });
 });
