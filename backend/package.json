@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "predev": "yarn prisma migrate reset --force",
-    "dev": "nodemon --exec 'ts-node' --transpile-only src/express/server.ts",
+    "dev": "nodemon --exec 'ts-node' --transpile-only src/main/server.ts",
     "test": "jest --passWithNoTests --runInBand",
     "lint": "eslint . --fix --ext .ts",
     "test:staged": "jest --passWithNoTests --bail --runInBand --findRelatedTests"
@@ -40,6 +40,6 @@
     "jsonwebtoken": "^8.5.1"
   },
   "prisma": {
-    "schema": "./src/database/prisma/schema.prisma"
+    "schema": "./src/infra/database/prisma/schema.prisma"
   }
 }
