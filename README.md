@@ -3,68 +3,77 @@
 Esse projeto é uma pequena carteira digital construida como parte do desafio
 técnico para a NG CASH.
 
+![Pagina Principal](https://i.imgur.com/i456eyT.png)
+
 ## Como rodar o projeto
 
 <details>
-  <summary><strong>Rodando Localmente</strong></summary>
+    <summary><strong>Rodando Localmente</strong></summary>
 
-Clone o projeto
+  Clone o projeto
 
-```bash
-  git clone git@github.com:GusttavoCDN/ngCash.git
-```
+  ```bash
+    git clone git@github.com:GusttavoCDN/ngCash.git
+  ```
 
-Vá para a pasta do projeto
+  Vá para a pasta do projeto
 
-```bash
-  cd ngCash
-```
+  ```bash
+    cd ngCash
+  ```
 
-Instale as dependencias
+  Instale as dependencias
 
-```bash
-  yarn install
-```
+  ```bash
+    yarn install
+  ```
 
-Inicie o servidor no frontend
+  Inicie o servidor no frontend
 
-```bash
-  yarn frontend
-```
+  ```bash
+    yarn frontend
+  ```
 
-Inicie o servidor no backend
+  Inicie o servidor no backend
 
-```bash
-  yarn backend
-```
+  ```bash
+    yarn backend
+  ```
 
-- O frontend estará disponivel em `http://localhost:5173`
-- O backend estará disponivel em `http://localhost:3000`
-
-<details>
+  - O frontend estará disponivel em `http://localhost:5173`
+  - O backend estará disponivel em `http://localhost:3000`
+</details>
 
 <details>
   <summary><strong>Rodando com Docker</strong></summary>
 
-Clone o projeto
+  Clone o projeto
 
-```bash
-  git clone git@github.com:GusttavoCDN/ngCash.git
-```
+  ```bash
+    git clone git@github.com:GusttavoCDN/ngCash.git
+  ```
 
-Vá para a pasta do projeto
+  Vá para a pasta do projeto
 
-```bash
-  cd ngCash
-```
+  ```bash
+    cd ngCash
+  ```
 
-Execute o comando iniciar o docker
+  Execute o comando iniciar o docker
 
-```bash
-  yarn compose:up ou docker-compose up -d
-```
+  ```bash
+    yarn compose:up ou docker-compose up -d
+  ```
 
-- O frontend estará disponivel em `http://localhost:5173`
-- O backend estará disponivel em `http://localhost:3000`
+  - O frontend estará disponivel em `http://localhost:5173`
+  - O backend estará disponivel em `http://localhost:3000`
 
 </details>
+
+## 🛠 Tecnologias
+
+**front-end**: React, Context-API, Styled-Components, Axios, React-Router-Dom, Typescript
+
+**back-end**: 
+
+- NodeJS, Express, Typescript, Prisma, Postgres, Docker, Joi, Bcrypt, JsonWebToken
