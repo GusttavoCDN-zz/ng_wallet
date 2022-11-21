@@ -26,8 +26,8 @@ const fakeRequest = {
 
 const makeSut = (): SutTypes => {
   const usersRepositoryStub: jest.Mocked<AddUserRepository & FindUserRepository> = {
-    add: jest.fn().mockResolvedValue(fakeUser),
-    find: jest.fn().mockResolvedValue(null)
+    create: jest.fn().mockResolvedValue(fakeUser),
+    findByUsername: jest.fn().mockResolvedValue(null)
   };
 
   const passwordEncrypterStub: jest.Mocked<PasswordEncrypter> = {
@@ -41,7 +41,7 @@ const makeSut = (): SutTypes => {
 describe('CreateUser use case Test', () => {
   it('Should call find with the correct value ', async () => {
     const { sut, usersRepositoryStub } = makeSut();
-    const findSpy = jest.spyOn(usersRepositoryStub, 'find');
+    const findSpy = jest.spyOn(usersRepositoryStub, 'findByUsername');
 
     await sut.execute(fakeRequest);
 
@@ -50,7 +50,7 @@ describe('CreateUser use case Test', () => {
 
   it('Should throw an error if user already exists', async () => {
     const { sut, usersRepositoryStub } = makeSut();
-    usersRepositoryStub.find.mockResolvedValueOnce(fakeUser);
+    usersRepositoryStub.findByUsername.mockResolvedValueOnce(fakeUser);
 
     const promise = sut.execute(fakeRequest);
 
@@ -68,7 +68,7 @@ describe('CreateUser use case Test', () => {
 
   it('Should call add with the correct values ', async () => {
     const { sut, usersRepositoryStub } = makeSut();
-    const addSpy = jest.spyOn(usersRepositoryStub, 'add');
+    const addSpy = jest.spyOn(usersRepositoryStub, 'create');
 
     await sut.execute(fakeRequest);
 
