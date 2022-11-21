@@ -70,10 +70,8 @@ técnico para a NG CASH.
 
 </details>
 
-## 🛠 Tecnologias
+## 🛠 Tecnologias utilizadas
 
 **front-end**: React, Context-API, Styled-Components, Axios, React-Router-Dom, Typescript
 
-**back-end**: 
-
-- NodeJS, Express, Typescript, Prisma, Postgres, Docker, Joi, Bcrypt, JsonWebToken
+**back-end**: NodeJS, Express, Typescript, Prisma, Postgres, Docker, Joi, Bcrypt, JsonWebToken
