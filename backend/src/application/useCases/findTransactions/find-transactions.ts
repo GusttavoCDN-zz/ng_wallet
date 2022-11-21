@@ -1,12 +1,5 @@
 import { FindTransactionsRepository } from '../../contracts';
-
-export type TransactionModel = {
-  id: number
-  debitedAccountId: string
-  creditedAccountId: string
-  value: number
-  createdAt: Date
-};
+import { TransactionModel } from '../../models/transaction-model';
 
 export class FindTransactionsUseCase {
   constructor(private readonly transactionsRepository: FindTransactionsRepository) {}
