@@ -1,12 +1,7 @@
-import { TokenGenerator } from '../../application/contracts';
+import { Payload, TokenGenerator } from '../../application/contracts';
 
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-
-type Payload = {
-  id: number
-  username: string
-};
 
 export class JwtTokenGenerator implements TokenGenerator {
   private readonly config: jwt.SignOptions;

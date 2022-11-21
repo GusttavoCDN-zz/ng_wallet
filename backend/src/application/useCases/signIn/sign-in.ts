@@ -1,17 +1,6 @@
 import { NotFoundError } from '../../../errors';
 import { FindUserRepository, PasswordCompare, TokenGenerator } from '../../contracts/';
-
-type UserCredentials = {
-  username: string
-  password: string
-};
-
-type UserAccessData = {
-  id: number
-  username: string
-  token: string
-  account: string
-};
+import { UserCredentialsDTO, UserAccessDataDTO } from './dtos';
 
 export class SignInUseCase {
   constructor(
@@ -20,8 +9,11 @@ export class SignInUseCase {
     private readonly tokenGenerator: TokenGenerator
   ) {}
 
-  execute = async ({ username, password }: UserCredentials): Promise<UserAccessData> => {
-    const user = await this.usersRepository.find(username);
+  execute = async ({
+    username,
+    password
+  }: UserCredentialsDTO): Promise<UserAccessDataDTO> => {
+    const user = await this.usersRepository.findByUsername(username);
 
     if (!user) throw new NotFoundError('User or password invalid');
 
@@ -31,7 +23,8 @@ export class SignInUseCase {
 
     const token = await this.tokenGenerator.generate({
       id: user.id,
-      username: user.username
+      username: user.username,
+      account: user.accountId
     });
 
     return { id: user.id, username: user.username, account: user.accountId, token };

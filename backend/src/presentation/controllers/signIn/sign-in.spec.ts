@@ -1,5 +1,6 @@
-import { SignInUseCase } from '../../application/useCases/signIn/sign-in';
-import { RequestValidator } from '../../contracts/RequestValidator';
+import { SignInUseCase } from '../../../application/useCases';
+import { InvalidRequestError } from '../../../errors';
+import { RequestValidator } from '../../contracts';
 import { SignIn } from './sign-in';
 
 const fakeUserDataAccess = {
@@ -43,13 +44,13 @@ describe('Sign-in controller test', () => {
     expect(requestValidator.validate).toHaveBeenCalledWith(fakeRequest.body);
   });
 
-  it('Should return statusCode 400 if data is invalid', async () => {
+  it('Should throw an invalid request exception if data is invalid', async () => {
     const { sut, requestValidator } = makeSut();
     requestValidator.validate.mockResolvedValueOnce(false);
 
-    const response = await sut.handle(fakeRequest);
+    const promise = sut.handle(fakeRequest);
 
-    expect(response.statusCode).toBe(400);
+    await expect(promise).rejects.toThrowError(InvalidRequestError);
   });
 
   it('Should call execute with correct values', async () => {
@@ -60,11 +61,12 @@ describe('Sign-in controller test', () => {
     expect(signInStub.execute).toHaveBeenCalledWith(fakeRequest.body);
   });
 
-  it('Should return statusCode 200 if data is valid', async () => {
+  it('Should return statusCode 200 and the user data if data is valid', async () => {
     const { sut } = makeSut();
 
     const response = await sut.handle(fakeRequest);
 
     expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(fakeUserDataAccess);
   });
 });

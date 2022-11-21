@@ -1,8 +1,5 @@
 import { NotFoundError } from '../../../errors';
-import { BadRequestError } from '../../../errors/bad-request';
-import { FindUserRepository } from '../../contracts/UsersRepository';
-import { PasswordCompare } from '../../../utils/PasswordCompare';
-import { TokenGenerator } from '../../contracts/TokenGenerator';
+import { FindUserRepository, PasswordCompare, TokenGenerator } from '../../contracts';
 import { SignInUseCase } from './sign-in';
 
 const fakeUserResponse = {
@@ -26,7 +23,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const usersRepositoryStub: jest.Mocked<FindUserRepository> = {
-    find: jest.fn().mockResolvedValue(fakeUserResponse)
+    findByUsername: jest.fn().mockResolvedValue(fakeUserResponse)
   };
   const passwordCompareStub: jest.Mocked<PasswordCompare> = {
     compare: jest.fn().mockResolvedValue(true)
@@ -44,18 +41,18 @@ const makeSut = (): SutTypes => {
   return { sut, usersRepositoryStub, passwordCompareStub, tokenGeneratorStub };
 };
 
-describe('Login use case controller', () => {
+describe('SignIn use case controller', () => {
   it('Should call find with the correct value', async () => {
     const { sut, usersRepositoryStub } = makeSut();
 
     await sut.execute(fakeRequest);
 
-    expect(usersRepositoryStub.find).toHaveBeenCalledWith(fakeRequest.username);
+    expect(usersRepositoryStub.findByUsername).toHaveBeenCalledWith(fakeRequest.username);
   });
 
   it('Should throw NotFound if users does not exists', async () => {
     const { sut, usersRepositoryStub } = makeSut();
-    usersRepositoryStub.find.mockResolvedValueOnce(null);
+    usersRepositoryStub.findByUsername.mockResolvedValueOnce(null);
 
     const promise = sut.execute(fakeRequest);
 
@@ -73,13 +70,13 @@ describe('Login use case controller', () => {
     );
   });
 
-  it('Should throw BadRequest if password is invalid', async () => {
+  it('Should throw NotFound if password is invalid', async () => {
     const { sut, passwordCompareStub } = makeSut();
     passwordCompareStub.compare.mockResolvedValueOnce(false);
 
     const promise = sut.execute(fakeRequest);
 
-    await expect(promise).rejects.toThrow(BadRequestError);
+    await expect(promise).rejects.toThrow(NotFoundError);
   });
 
   it('Should call generate with the correct value', async () => {
@@ -89,7 +86,8 @@ describe('Login use case controller', () => {
 
     expect(tokenGeneratorStub.generate).toHaveBeenCalledWith({
       id: fakeUserResponse.id,
-      username: fakeUserResponse.username
+      username: fakeUserResponse.username,
+      account: fakeUserResponse.accountId
     });
   });
 
@@ -101,6 +99,7 @@ describe('Login use case controller', () => {
     expect(userData).toEqual({
       id: fakeUserResponse.id,
       username: fakeUserResponse.username,
+      account: fakeUserResponse.accountId,
       token: 'any_token'
     });
   });
