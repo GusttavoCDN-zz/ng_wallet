@@ -14,15 +14,11 @@ accountsRouter.post(
 );
 
 accountsRouter.get(
-  '/transactions/:accountId',
+  '/transactions',
   authenticate,
   adaptRoute(makeFindTransactionsController())
 );
 
-accountsRouter.get(
-  '/accounts/:accountId',
-  authenticate,
-  adaptRoute(makeFindAccountController())
-);
+accountsRouter.get('/account', authenticate, adaptRoute(makeFindAccountController()));
 
 export { accountsRouter };

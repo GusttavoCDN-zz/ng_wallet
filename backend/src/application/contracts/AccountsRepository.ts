@@ -1,10 +1,14 @@
 import { AccountModel } from '../models/account-model';
-import { CreateTransactionDTO } from '../useCases/createTransaction/dtos';
 
+export type TransactionData = {
+  debitedAccount: string
+  creditedAccount: string
+  amount: number
+};
 export interface FindAccountRepository {
   find: (accountId: string) => Promise<AccountModel | null>
 }
 
 export interface MakeTransactionRepository {
-  makeTransaction: (data: CreateTransactionDTO) => Promise<void>
+  makeTransaction: (data: TransactionData) => Promise<void>
 }

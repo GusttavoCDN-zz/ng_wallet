@@ -38,7 +38,7 @@ const makeSut = (): SutTypes => {
 describe('FindTransactions controller test', () => {
   const httpRequest: HttpRequest = {
     body: {},
-    params: { accountId: 'accountId' }
+    user: { id: 1, username: 'username', account: 'accountId' }
   };
 
   it('Should respond with statusCode 200 and a arry of transactions on body', async () => {

@@ -5,7 +5,6 @@
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
-    "predev": "yarn prisma migrate reset --force",
     "dev": "nodemon --exec 'ts-node' --transpile-only src/main/server.ts",
     "test": "jest --passWithNoTests --runInBand",
     "lint": "eslint . --fix --ext .ts",

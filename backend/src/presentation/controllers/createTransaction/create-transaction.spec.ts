@@ -25,9 +25,9 @@ describe('CreateTransaction controller test', () => {
   const httpRequest: HttpRequest = {
     body: {
       amount: 100,
-      debitedAccount: '1',
-      creditedAccount: '2'
-    }
+      creditedUsername: 'any_username'
+    },
+    user: { id: 1, username: 'any_username', account: 'any_account' }
   };
 
   it('Should call validate with the body request', async () => {
@@ -45,12 +45,16 @@ describe('CreateTransaction controller test', () => {
     await expect(sut.handle(httpRequest)).rejects.toThrowError(InvalidRequestError);
   });
 
-  it('Should call createTransactionUseCase with the body request', async () => {
+  it('Should call createTransactionUseCase with tthe correct values', async () => {
     const { sut, createTransactionUseCaseStub } = makeSut();
 
     await sut.handle(httpRequest);
 
-    expect(createTransactionUseCaseStub.execute).toHaveBeenCalledWith(httpRequest.body);
+    expect(createTransactionUseCaseStub.execute).toHaveBeenCalledWith({
+      debitedAccount: httpRequest.user?.account,
+      creditedUsername: httpRequest.body.creditedUsername,
+      amount: httpRequest.body.amount
+    });
   });
 
   it('Should return 201 if createTransactionUseCase succeeds', async () => {

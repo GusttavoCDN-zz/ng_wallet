@@ -25,8 +25,8 @@ const makeSut = (): SutTypes => {
 
 describe('FindAccount controller test', () => {
   const httpRequest: HttpRequest = {
-    params: { accountId: 'accountId' },
-    body: {}
+    body: {},
+    user: { id: 1, username: 'any_username', account: 'any_accountId' }
   };
 
   it('Should call execute with correct value', async () => {
@@ -34,7 +34,7 @@ describe('FindAccount controller test', () => {
 
     await sut.handle(httpRequest);
 
-    expect(findAccountUseCaseStub.execute).toHaveBeenCalledWith('accountId');
+    expect(findAccountUseCaseStub.execute).toHaveBeenCalledWith('any_accountId');
   });
 
   it('Should return 200 if account is found', async () => {

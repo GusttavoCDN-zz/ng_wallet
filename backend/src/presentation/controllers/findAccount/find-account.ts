@@ -1,13 +1,13 @@
 import { FindAccountUseCase } from '../../../application/useCases';
-import { Controller, HttpRequest, HttpResponse } from '../../contracts';
+import { Controller, HttpRequest, HttpResponse, RequestUser } from '../../contracts';
 
 export class FindAccount implements Controller {
   constructor(private readonly findAccount: FindAccountUseCase) {}
 
   handle = async (request: HttpRequest): Promise<HttpResponse> => {
-    const { accountId } = request.params;
+    const { account: accountId } = request.user as RequestUser;
 
-    const account = await this.findAccount.execute(accountId as string);
+    const account = await this.findAccount.execute(accountId);
 
     return {
       statusCode: 200,

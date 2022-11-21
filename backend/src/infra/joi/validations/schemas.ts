@@ -10,6 +10,5 @@ export const userCredentialsSchema = joi.object({
 
 export const createTransactionSchema = joi.object({
   amount: joi.number().min(1).required(),
-  debitedAccount: joi.string().required(),
-  creditedAccount: joi.string().required()
+  creditedUsername: joi.string().required()
 });

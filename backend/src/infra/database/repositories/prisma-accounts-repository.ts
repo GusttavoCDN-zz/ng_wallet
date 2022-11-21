@@ -1,9 +1,9 @@
 import { Account } from '@prisma/client';
 import {
   FindAccountRepository,
-  MakeTransactionRepository
+  MakeTransactionRepository,
+  TransactionData
 } from '../../../application/contracts';
-import { CreateTransactionDTO } from '../../../application/useCases/createTransaction/dtos';
 import prismaClient from '../prisma/config/config';
 
 export class PrismaAccountsRepository
@@ -17,7 +17,7 @@ implements FindAccountRepository, MakeTransactionRepository {
     });
   };
 
-  makeTransaction = async (data: CreateTransactionDTO): Promise<void> => {
+  makeTransaction = async (data: TransactionData): Promise<void> => {
     await prismaClient.$transaction([
       this.accountModel.update({
         data: {

@@ -7,6 +7,7 @@ const SECRET = process.env.SECRET ?? 'secret';
 type Payload = {
   id: number
   username: string
+  account: string
 };
 
 const authenticate = async (

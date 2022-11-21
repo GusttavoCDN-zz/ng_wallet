@@ -1,11 +1,17 @@
 import { NotFoundError } from '../../../errors';
-import { FindAccountRepository, MakeTransactionRepository } from '../../contracts';
+import {
+  FindAccountRepository,
+  FindUserRepository,
+  MakeTransactionRepository
+} from '../../contracts';
 import { AccountModel } from '../../models/account-model';
+import { UserModel } from '../../models/user-model';
 import { CreateTransactionUseCase } from './create-transaction';
 
 type SutTypes = {
   sut: CreateTransactionUseCase
   accountsRepositoryStub: jest.Mocked<FindAccountRepository & MakeTransactionRepository>
+  usersRepositoryStub: jest.Mocked<FindUserRepository>
 };
 
 const fakeAccountResponseOne: AccountModel = {
@@ -18,6 +24,13 @@ const fakeAccountResponseTwo: AccountModel = {
   balance: 100
 };
 
+const fakeUserResponse: UserModel = {
+  id: 1,
+  username: 'any_username',
+  password: 'any_password',
+  accountId: fakeAccountResponseTwo.id
+};
+
 const makeSut = (): SutTypes => {
   const accountsRepositoryStub: jest.Mocked<
   FindAccountRepository & MakeTransactionRepository
@@ -25,9 +38,12 @@ const makeSut = (): SutTypes => {
     find: jest.fn(),
     makeTransaction: jest.fn()
   };
-  const sut = new CreateTransactionUseCase(accountsRepositoryStub);
+  const usersRepositoryStub: jest.Mocked<FindUserRepository> = {
+    findByUsername: jest.fn().mockResolvedValue(fakeUserResponse)
+  };
+  const sut = new CreateTransactionUseCase(accountsRepositoryStub, usersRepositoryStub);
 
-  return { sut, accountsRepositoryStub };
+  return { sut, accountsRepositoryStub, usersRepositoryStub };
 };
 
 describe('Create transaction use case test', () => {
@@ -40,7 +56,7 @@ describe('Create transaction use case test', () => {
     await sut.execute({
       amount: 100,
       debitedAccount: '1',
-      creditedAccount: '2'
+      creditedUsername: 'any_username'
     });
 
     expect(accountsRepositoryStub.find).toHaveBeenNthCalledWith(1, '1');
@@ -55,22 +71,22 @@ describe('Create transaction use case test', () => {
     const promise = sut.execute({
       amount: 100,
       debitedAccount: '1',
-      creditedAccount: '2'
+      creditedUsername: 'any_username'
     });
 
     await expect(promise).rejects.toThrowError(NotFoundError);
   });
 
   it('Should throw NotFound if find does not find the credited account', async () => {
-    const { sut, accountsRepositoryStub } = makeSut();
+    const { sut, accountsRepositoryStub, usersRepositoryStub } = makeSut();
 
     accountsRepositoryStub.find.mockResolvedValueOnce(fakeAccountResponseOne);
-    accountsRepositoryStub.find.mockResolvedValueOnce(null);
+    usersRepositoryStub.findByUsername.mockResolvedValueOnce(null);
 
     const promise = sut.execute({
       amount: 100,
       debitedAccount: '1',
-      creditedAccount: '2'
+      creditedUsername: 'any_username'
     });
 
     await expect(promise).rejects.toThrowError(NotFoundError);
@@ -85,7 +101,7 @@ describe('Create transaction use case test', () => {
     await sut.execute({
       amount: 100,
       debitedAccount: '1',
-      creditedAccount: '2'
+      creditedUsername: '2'
     });
 
     expect(accountsRepositoryStub.makeTransaction).toHaveBeenCalledWith({
@@ -105,7 +121,7 @@ describe('Create transaction use case test', () => {
     const promise = sut.execute({
       amount: 100,
       debitedAccount: '1',
-      creditedAccount: '2'
+      creditedUsername: 'any_username'
     });
 
     await expect(promise).rejects.toThrow();
