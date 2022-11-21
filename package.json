@@ -11,7 +11,9 @@
     "prepare": "husky install",
     "frontend": "yarn workspace frontend dev",
     "backend": "yarn workspace backend dev",
-    "start": "yarn frontend & yarn backend"
+    "start": "yarn frontend & yarn backend",
+    "compose:up": "docker-compose up -d",
+    "compose:down": "docker-compose down"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
