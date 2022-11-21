@@ -1,4 +1,4 @@
-import { Account } from '../../domain';
+import { AccountModel } from '../models/account-model';
 
 export type TransactionData = {
   debitedAccount: string
@@ -7,7 +7,7 @@ export type TransactionData = {
 };
 
 export interface FindAccountRepository {
-  find: (username: string) => Promise<Account | null>
+  find: (accountId: string) => Promise<AccountModel | null>
 }
 
 export interface MakeTransactionRepository {

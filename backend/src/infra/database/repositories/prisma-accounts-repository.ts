@@ -11,13 +11,9 @@ implements FindAccountRepository, MakeTransactionRepository {
   private readonly accountModel = prismaClient.account;
   private readonly transactionModel = prismaClient.transaction;
 
-  find = async (username: string): Promise<Account | null> => {
-    const user = await prismaClient.user.findUnique({
-      where: { username }
-    });
-
+  find = async (accountId: string): Promise<Account | null> => {
     return await this.accountModel.findUnique({
-      where: { id: user?.accountId }
+      where: { id: accountId }
     });
   };
 
