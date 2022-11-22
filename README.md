@@ -42,6 +42,8 @@ técnico para a NG CASH.
 
   - O frontend estará disponivel em `http://localhost:5173`
   - O backend estará disponivel em `http://localhost:3000`
+
+  **OBS**: Não se esqueça de verificar o arquivo .env-example e configurar a conexão com o seu banco de dados local.
 </details>
 
 <details>
@@ -59,10 +61,28 @@ técnico para a NG CASH.
     cd ngCash
   ```
 
-  Execute o comando iniciar o docker
+  Execute o comando para iniciar o docker
 
   ```bash
     yarn compose:up ou docker-compose up -d
+  ```
+
+  Entre dentro do shell do container
+
+  ```bash
+    docker exec -it ng_wallet bash
+  ```
+
+  Instale as dependencias
+
+  ```bash
+    yarn install
+  ```
+
+  Inicie a aplicação
+
+  ```bash
+    yarn start
   ```
 
   - O frontend estará disponivel em `http://localhost:5173`
